@@ -39,10 +39,10 @@
 package com.hcl.hackathon.controller;
 
 
+import com.hcl.hackathon.exception.OrderManagementException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
-import com.hcl.hackathon.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +53,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,9 +105,16 @@ public class OrderController {
     public OrderDTO createOrder(
             @Parameter(description="Order to add. Cannot null or empty.",
                     required=true, schema=@Schema(implementation = OrderInfoDTO.class))
-            @Valid @RequestBody OrderInfoDTO OrderInfoDTO) {
-
-        return this.orderService.createOrder(OrderInfoDTO);
+            @Valid @RequestBody OrderInfoDTO orderInfoDTO) {
+        if(orderInfoDTO.getUserId().equals(null) || orderInfoDTO.getUserId().equals(' ')) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "User Id mandatory to process this Order");
+        } else if (orderInfoDTO.getTotalAmount()< 0) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "Total Amount should be greater then Zero");
+        } else if(orderInfoDTO.getOrderItems().size()> 0) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "No item attach with this Order");
+        } else {
+            return this.orderService.createOrder(orderInfoDTO);
+        }
     }
     
     @Operation(summary = "Update an existing Order status", description = "", tags = { "order" })

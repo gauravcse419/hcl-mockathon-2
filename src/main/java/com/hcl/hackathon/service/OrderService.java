@@ -37,8 +37,6 @@
  *   https://creativecommons.org/licenses/by-sa/4.0/legalcode
  */
 package com.hcl.hackathon.service;
-
-import com.hcl.hackathon.model.OrderDetails;
 import org.springframework.stereotype.Service;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
@@ -47,9 +45,5 @@ import com.hcl.hackathon.model.OrderInfoDTO;
 
 @Service
 public interface OrderService {
-    
-
-
     OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
-
 }

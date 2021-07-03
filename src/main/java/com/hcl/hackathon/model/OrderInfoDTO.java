@@ -20,16 +20,14 @@ import java.util.List;
 public class OrderInfoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "order Id",
-			example = "1", required = false)
+
 	private Integer orderId;
 
-	@Schema(description = "order No",
-			example = "ORD123445555", required = false)
+
 	private String orderNo;
 
 	@Schema(description = "order status",
-			example = "completed", required = false)
+			example = "Order", required = false)
 	private String orderStatus;
 
 	@Schema(description = "total Amount",
