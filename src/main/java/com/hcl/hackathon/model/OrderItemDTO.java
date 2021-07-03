@@ -28,11 +28,9 @@ public class OrderItemDTO implements Serializable {
 	@Schema(description = "quantity",
 			example = "quantity", required = false)
 	private String quantity;
-	@Schema(description = "item",
-			example = "item", required = false)
+	@Schema(description = "item")
 	private ItemDTO item;
-	@Schema(description = "orderInfo",
-			example = "orderInfo", required = false)
+	@Schema(description = "orderInfo")
 	private OrderInfoDTO orderInfo;
 
 
