@@ -38,10 +38,22 @@
  */
 package com.hcl.hackathon.repository;
 
-import com.hcl.hackathon.entity.UserInfo;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.hcl.hackathon.entity.OrderInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends PagingAndSortingRepository<UserInfo, Long>,
-        JpaSpecificationExecutor<UserInfo> {
+import java.util.List;
+
+/**
+ * The interface User repository.
+ */
+@Repository
+public interface UserRepository extends JpaRepository<OrderInfo,Long>{
+    /**
+     * Find by user id list.
+     *
+     * @param userId the user id
+     * @return the list
+     */
+    List<OrderInfo> findByUserId(long userId);
 }

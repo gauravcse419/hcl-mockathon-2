@@ -38,13 +38,17 @@
  */
 package com.hcl.hackathon.service;
 
+import com.hcl.hackathon.model.OrderDetails;
+import org.springframework.stereotype.Service;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 
-import java.util.List;
 
 
+@Service
 public interface OrderService {
+    
+
 
     OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
 

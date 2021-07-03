@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 /**
  * The persistent class for the order_item database table.
- * 
  */
 @Entity
 @Table(name="order_item")
