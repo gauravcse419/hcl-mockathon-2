@@ -27,6 +27,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    /**
+     * Method to create new Order
+     *
+     * @param orderInfoDTO
+     * @return OrderDTO
+     */
     @Override
     public OrderDTO createOrder(OrderInfoDTO orderInfoDTO) {
         logger.info("OrderService createOrder{}",orderInfoDTO);
@@ -50,13 +56,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
-        List<OrderInfoDTO> orderInfoDTOS = null;
-        List<OrderInfo> orderInfoDetail = null;
-
+        List<OrderInfoDTO> orderInfoDTOS;
+        List<OrderInfo> orderInfoDetail;
 
         orderInfoDetail = orderRepository.findByOrderStatus(orderStatus);
         orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
-
         if(orderNo != null){
             orderInfoDetail = orderRepository.findByOrderStatusAndOrderNo(orderStatus, orderNo);
             orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
