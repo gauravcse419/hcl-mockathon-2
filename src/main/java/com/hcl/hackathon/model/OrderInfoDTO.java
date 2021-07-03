@@ -16,8 +16,7 @@ import java.util.List;
  * 
  */
 
-@Getter
-@Setter
+@Data
 public class OrderInfoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -41,8 +40,7 @@ public class OrderInfoDTO implements Serializable {
 			example = "user Id", required = false)
 	private Integer userId;
 
-	@Schema(description = "order Items",
-			example = "order Items", required = false)
+	@Schema(description = "order Items")
 	private List<OrderItemDTO> orderItems;
 
 

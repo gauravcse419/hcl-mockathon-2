@@ -40,7 +40,6 @@ package com.hcl.hackathon.controller;
 
 
 import com.hcl.hackathon.model.OrderDTO;
-import com.hcl.hackathon.model.OrderDetails;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
 import com.hcl.hackathon.service.UserService;
@@ -67,15 +66,26 @@ public class OrderController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
-    private final int ROW_PER_PAGE = 5;
-    
+    @Autowired
+    private OrderService orderService;
 
 
+    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "successful operation",
+                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+        @ApiResponse(responseCode = "404", description = "order not found") })
+    @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
+    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
+            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
+            @PathVariable long contactId) {
+        return ResponseEntity.ok().build();
+    }
 
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation"
+                    ),
             @ApiResponse(responseCode = "404", description = "orders not found") })
     @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<OrderInfoDTO>> findOrdersByOrderStatus(
@@ -86,16 +96,17 @@ public class OrderController {
     
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "201", description = "Order created",
-                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+        @ApiResponse(responseCode = "200, description = "Order created",
+                content = @Content(schema = @Schema(implementation = OrderDTO.class))),
         @ApiResponse(responseCode = "400", description = "Invalid input"), 
         @ApiResponse(responseCode = "409", description = "Order already exists") })
     @PostMapping(value = "/order", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<OrderDTO> createOrder(
+    public OrderDTO createOrder(
             @Parameter(description="Order to add. Cannot null or empty.",
                     required=true, schema=@Schema(implementation = OrderInfoDTO.class))
             @Valid @RequestBody OrderInfoDTO OrderInfoDTO) {
-        return ResponseEntity.ok().build();
+
+        return this.orderService.createOrder(OrderInfoDTO);
     }
     
     @Operation(summary = "Update an existing Order status", description = "", tags = { "order" })
