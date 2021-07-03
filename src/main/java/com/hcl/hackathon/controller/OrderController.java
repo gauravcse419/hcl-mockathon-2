@@ -56,6 +56,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -70,19 +71,31 @@ public class OrderController {
     private OrderService contactService;
 
 
-    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "contact" })
+    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "successful operation",
                 content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Contact not found") })
+        @ApiResponse(responseCode = "404", description = "order not found") })
     @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<OrderInfoDTO> findOrdersByUserId(
+    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
             @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
             @PathVariable long contactId) {
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+            @ApiResponse(responseCode = "404", description = "orders not found") })
+    @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
+    public ResponseEntity<List<OrderInfoDTO>> findOrdersByOrderStatus(
+            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.", required=true)
+            @RequestParam String orderNo, @RequestParam String orderStatus) {
+        return ResponseEntity.ok().build();
+    }
     
-    @Operation(summary = "Add a new Order", description = "", tags = { "Order" })
+    @Operation(summary = "Add a new Order", description = "", tags = { "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "201", description = "Order created",
                 content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
@@ -96,13 +109,13 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
     
-    @Operation(summary = "Update an existing Order status", description = "", tags = { "Order" })
+    @Operation(summary = "Update an existing Order status", description = "", tags = { "order" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Contact not found"),
         @ApiResponse(responseCode = "405", description = "Validation exception") })
-    @PutMapping(value = "/Order/{orderNo}", consumes = { "application/json", "application/xml" })
+    @PutMapping(value = "/order/{orderNo}", consumes = { "application/json", "application/xml" })
     public ResponseEntity<Void> updateOrderStatus(
             @Parameter(description="Id of the Order status to be update. Cannot be empty.",
                     required=true)
