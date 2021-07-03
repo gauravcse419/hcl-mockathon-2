@@ -68,7 +68,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v1")
-@Tag(name = "User", description = "the user API")
+@Tag(name = "users", description = "the user API")
 public class UserController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -83,7 +83,7 @@ public class UserController {
      * @param userId the user id
      * @return the list
      */
-    @Operation(summary = "Find orders by UserId", description = "Returns a order List", tags = { "orders" })
+    @Operation(summary = "Find orders by UserId", description = "Returns a order List", tags = { "users" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
