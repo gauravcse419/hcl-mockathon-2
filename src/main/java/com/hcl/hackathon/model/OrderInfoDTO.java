@@ -29,7 +29,7 @@ public class OrderInfoDTO implements Serializable {
 	private String orderNo;
 
 	@Schema(description = "order status",
-			example = "completed", required = false)
+			example = "Order", required = false)
 	private String orderStatus;
 
 	@Schema(description = "total Amount",

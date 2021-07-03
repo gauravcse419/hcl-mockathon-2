@@ -7,6 +7,7 @@ import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.repository.OrderRepository;
 import com.hcl.hackathon.service.OrderService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(OrderInfoDTO orderInfoDTO) {
         logger.info("OrderService createOrder{}",orderInfoDTO);
         OrderDTO orderDTO = new OrderDTO();
-        OrderInfo orderInfoResponse=orderMapper.fromVoToEntity(orderInfoDTO);
-        OrderInfo orderInfo = orderRepository.save(orderInfoResponse);
+        OrderInfo orderInfo = orderRepository.save(orderMapper.fromVoToEntity(orderInfoDTO));
         if(orderInfo != null) {
             orderDTO.setOrderNo(orderInfo.getOrderNo());
             orderDTO.setOrderStatus("Your Oder Placed Sucussfully");
@@ -41,18 +41,27 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    @Override
-    public List<OrderInfoDTO> findOrdersByUserId(long userId) {
-        return null;
-    }
-
+    /**
+     * Method to get orders by order status and order no
+     *
+     * @param orderNo
+     * @param orderStatus
+     * @return list of orders
+     */
     @Override
     public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
-        return null;
-    }
+        List<OrderInfoDTO> orderInfoDTOS = null;
+        List<OrderInfo> orderInfoDetail = null;
 
-    @Override
-    public void updateOrderStatus(OrderDTO updateOrderStatus, String orderNumber) {
 
+        orderInfoDetail = orderRepository.findByOrderStatus(orderStatus);
+        orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+
+        if(orderNo != null){
+            orderInfoDetail = orderRepository.findByOrderStatusAndOrderNo(orderStatus, orderNo);
+            orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+        }
+
+        return  orderInfoDTOS;
     }
 }

@@ -39,10 +39,13 @@
 package com.hcl.hackathon.controller;
 
 
+import com.hcl.hackathon.exception.OrderManagementException;
+import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.exception.BadResourceException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.service.impl.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +56,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +70,7 @@ import java.util.List;
 public class OrderController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     @Autowired
@@ -87,6 +93,16 @@ public class OrderController {
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = {"order"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation"
+                    ),
+            @ApiResponse(responseCode = "404", description = "orders not found") })
+    @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
+    public List<OrderInfoDTO> findOrdersByOrderStatus(
+            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.")
+            @RequestParam(required=true) String  orderStatus , @RequestParam(required=false) String orderNo) {
+            if(orderStatus.isEmpty() || orderStatus.equals(null)){
+                throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "order status is not given");
+            }
+        return orderService.findOrdersByOrderStatus(orderNo, orderStatus);
             ),
             @ApiResponse(responseCode = "404", description = "orders not found")})
     @GetMapping(value = "/orders", produces = {"application/json", "application/xml"})
@@ -109,6 +125,18 @@ public class OrderController {
             @Valid @RequestBody OrderInfoDTO OrderInfoDTO) {
 
         return orderService.createOrder(OrderInfoDTO);
+            @Parameter(description="Order to add. Cannot null or empty.",
+                    required=true, schema=@Schema(implementation = OrderInfoDTO.class))
+            @Valid @RequestBody OrderInfoDTO orderInfoDTO) {
+        if(orderInfoDTO.getUserId().equals(null) || orderInfoDTO.getUserId().equals(' ')) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "User Id mandatory to process this Order");
+        } else if (orderInfoDTO.getTotalAmount()< 0) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "Total Amount should be greater then Zero");
+        } else if(orderInfoDTO.getOrderItems().size()> 0) {
+            throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "No item attach with this Order");
+        } else {
+            return this.orderService.createOrder(orderInfoDTO);
+        }
     }
 
     @Operation(summary = "Update an existing Order status", description = "", tags = {"order"})

@@ -55,4 +55,40 @@ public class OrderMapper {
         return to;
 
     }
+
+    public List<OrderInfoDTO> mapOrderInfoDetails(List<OrderInfo> orderInfoDetail) {
+        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
+        orderInfoDetail.forEach(orderInfo -> orderInfoDTOS.add(mapOrderDetailRespose(orderInfo)) );
+        return  orderInfoDTOS;
+    }
+
+    private OrderInfoDTO mapOrderDetailRespose(OrderInfo orderInfo) {
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+        orderInfoDTO.setOrderId(orderInfo.getOrderId());
+        orderInfoDTO.setOrderNo(orderInfo.getOrderNo());
+        orderInfoDTO.setOrderStatus(orderInfo.getOrderStatus());
+        orderInfoDTO.setOrderItems(mapOrderItem(orderInfo.getOrderItems()));
+        return  orderInfoDTO;
+    }
+
+    private List<OrderItemDTO> mapOrderItem(List<OrderItem> orderItems) {
+        List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
+        orderItems.forEach(orderItem -> orderItemDTOS.add(mapOrderItemDetailRespose(orderItem)) );
+        return  orderItemDTOS;
+    }
+
+    private OrderItemDTO mapOrderItemDetailRespose(OrderItem orderItem) {
+        OrderItemDTO orderItemDTO = new OrderItemDTO();
+        orderItemDTO.setQuantity(orderItem.getQuantity());
+        orderItemDTO.setItem(mapItemDetail(orderItem.getItem()));
+        return  orderItemDTO;
+    }
+
+    private ItemDTO mapItemDetail(Item item) {
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setItemId(item.getItemId());
+        itemDTO.setItemName(item.getItemName());
+        itemDTO.setItemType(item.getItemType());
+        return  itemDTO;
+    }
 }

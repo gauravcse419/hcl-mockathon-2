@@ -38,23 +38,20 @@
  */
 package com.hcl.hackathon.service;
 
+import org.springframework.stereotype.Service;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
 
 @Service
 public interface OrderService {
-
-
-
     OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
 
-    List<OrderInfoDTO> findOrdersByUserId(long userId);
 
-    List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus);
 
-    void updateOrderStatus(OrderDTO updateOrderStatus, String orderNumber);
+
+    public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus);
 }
