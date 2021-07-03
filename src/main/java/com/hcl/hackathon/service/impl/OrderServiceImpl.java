@@ -30,7 +30,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(OrderInfoDTO orderInfoDTO) {
         logger.info("OrderService createOrder{}",orderInfoDTO);
         OrderDTO orderDTO = new OrderDTO();
-        OrderInfo orderInfo = orderRepository.save(orderMapper.fromVoToEntity(orderInfoDTO));
+        OrderInfo orderInfoResponse=orderMapper.fromVoToEntity(orderInfoDTO);
+        OrderInfo orderInfo = orderRepository.save(orderInfoResponse);
         if(orderInfo != null) {
             orderDTO.setOrderNo(orderInfo.getOrderNo());
             orderDTO.setOrderStatus("Your Oder Placed Sucussfully");
@@ -38,5 +39,20 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new OrderManagementException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error Occur while saving the order");
         }
+    }
+
+    @Override
+    public List<OrderInfoDTO> findOrdersByUserId(long userId) {
+        return null;
+    }
+
+    @Override
+    public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
+        return null;
+    }
+
+    @Override
+    public void updateOrderStatus(OrderDTO updateOrderStatus, String orderNumber) {
+
     }
 }

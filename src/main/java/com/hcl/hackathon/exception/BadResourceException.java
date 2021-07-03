@@ -38,55 +38,41 @@
  */
 package com.hcl.hackathon.exception;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * The type Bad resource exception.
- */
-public class BadResourceException extends Exception {
-
-    private List<String> errorMessages = new ArrayList<>();
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class BadResourceException extends RuntimeException {
 
     /**
-     * Instantiates a new Bad resource exception.
+     *
      */
-    public BadResourceException() {
+    private static final long serialVersionUID = 1L;
+
+    private int errorCode;
+    private String errorMessage;
+
+
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    /**
-     * Instantiates a new Bad resource exception.
-     *
-     * @param msg the msg
-     */
-    public BadResourceException(String msg) {
-        super(msg);
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
-    /**
-     * Gets error messages.
-     *
-     * @return the errorMessages
-     */
-    public List<String> getErrorMessages() {
-        return errorMessages;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    /**
-     * Sets error messages.
-     *
-     * @param errorMessages the errorMessages to set
-     */
-    public void setErrorMessages(List<String> errorMessages) {
-        this.errorMessages = errorMessages;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-    /**
-     * Add error message.
-     *
-     * @param message the message
-     */
-    public void addErrorMessage(String message) {
-        this.errorMessages.add(message);
+
+    public BadResourceException(int errorCode, String errorMessage) {
+        super();
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
     }
 }
+

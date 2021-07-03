@@ -33,7 +33,7 @@ public class OrderMapper {
 
     private List<OrderItem> fromVoToEntityOrderItem(List<OrderItemDTO> orderItems) {
         List<OrderItem> orderItemList = new ArrayList<>();
-        if(orderItems.size()> 0) {
+        if(!orderItems.isEmpty()) {
             orderItems.forEach(orderItemDTO -> {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setPrice(orderItemDTO.getPrice());
