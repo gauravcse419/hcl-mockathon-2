@@ -1,13 +1,10 @@
 package com.hcl.hackathon.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.List;
 
 
 /**
