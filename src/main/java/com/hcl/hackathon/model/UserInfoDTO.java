@@ -20,10 +20,12 @@ import java.io.Serializable;
 public class UserInfoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-
+	@Schema(description = "userId",
+			example = "1234555544", required = false)
 	private Integer userId;
 
-
+	@Schema(description = "userGroup",
+			example = "VEG", required = false)
 	private String userGroup;
 
 	@Schema(description = "user Name",
