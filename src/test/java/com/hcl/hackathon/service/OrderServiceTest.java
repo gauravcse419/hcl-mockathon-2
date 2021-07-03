@@ -10,10 +10,12 @@ import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.model.OrderItemDTO;
 import com.hcl.hackathon.repository.OrderRepository;
 import com.hcl.hackathon.service.impl.OrderServiceImpl;
+import com.hcl.hackathon.util.OrderTestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Date;
@@ -33,15 +35,16 @@ public class OrderServiceTest {
 
 	@InjectMocks
 	OrderServiceImpl orderService;
-	@Mock
+
+	@InjectMocks
 	OrderMapper orderMapper;
 
 	@Test
 	public void createOrderTest() {
-		OrderInfoDTO orderInfoDTO=getOrderInfoDTO();
+		OrderInfoDTO orderInfoDTO=OrderTestUtil.getOrderInfoDTO();
 		OrderInfo orderInfo=getOrderInfo();
-		when(orderRepository.save(orderInfo)).thenReturn(getOrderInfo());
-		when(orderMapper.fromVoToEntity(getOrderInfoDTO())).thenReturn(getOrderInfo());
+		when(orderMapper.fromVoToEntity(Mockito.any())).thenReturn(getOrderInfo());
+		when(orderRepository.save(Mockito.any())).thenReturn(getOrderInfo());
 		OrderDTO orderDTO=orderService.createOrder(orderInfoDTO);
 		verify(orderRepository).save(orderInfo);
 		assertThat(orderDTO).isNotNull();
@@ -54,7 +57,7 @@ public class OrderServiceTest {
 		OrderInfo orderInfo=new OrderInfo();
 		orderInfo.setOrderNo("ORD12345");
 		orderInfo.setOrderStatus("completed");
-		orderInfo.setOrderId(1l);
+		orderInfo.setOrderId(1);
 		orderInfo.setUserId(123l);
 		orderInfo.setTotalAmount(123.0);
 		String input = "2007-11-11 12:13:14" ;
@@ -84,39 +87,11 @@ public class OrderServiceTest {
 		return item;
 	}
 
-	private OrderInfoDTO getOrderInfoDTO() {
-		OrderInfoDTO orderInfoDTO=new OrderInfoDTO();
-		orderInfoDTO.setOrderId(1);
-		orderInfoDTO.setOrderNo("ORD12345");
-		orderInfoDTO.setOrderStatus("completed");
-		orderInfoDTO.setTotalAmount(123.0);
-		orderInfoDTO.setOrderItems(createOrderItems());
-		return orderInfoDTO;
-	}
 
-	private List<OrderItemDTO> createOrderItems() {
-		List<OrderItemDTO> orderItemDTOS=new ArrayList<>();
-		OrderItemDTO orderItemDTO=new OrderItemDTO();
-		orderItemDTO.setPrice(123.0);
-		orderItemDTO.setQuantity("setQuantity");
-		orderItemDTO.setOrderItemd(123);
-		orderItemDTO.setItem(createItems());
-		orderItemDTOS.add(orderItemDTO);
-		return orderItemDTOS;
-	}
-
-	private ItemDTO createItems() {
-		ItemDTO itemDTO=new ItemDTO();
-		itemDTO.setItemId(1);
-		itemDTO.setItemName("name");
-		itemDTO.setItemType("type");
-		itemDTO.setPrice(123.0);
-		return itemDTO;
-	}
 
 	@Test(expected = RuntimeException.class)
 	public void createCustomerInternalServerTest() {
-		OrderInfoDTO orderInfoDTO=getOrderInfoDTO();
+		OrderInfoDTO orderInfoDTO= OrderTestUtil.getOrderInfoDTO();
 		OrderInfo orderInfo=getOrderInfo();
 		when(orderRepository.save(orderInfo)).thenThrow(RuntimeException.class);
 		OrderDTO orderDTO=orderService.createOrder(orderInfoDTO);

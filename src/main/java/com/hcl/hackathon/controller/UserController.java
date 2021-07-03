@@ -35,7 +35,8 @@
  * You may obtain a copy of the License at
  *   https://creativecommons.org/licenses/by-sa/4.0/
  *   https://creativecommons.org/licenses/by-sa/4.0/legalcode
- */
+ *//*
+
 package com.hcl.hackathon.controller;
 
 
@@ -59,9 +60,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+*/
 /**
  * The type User controller.
- */
+ *//*
+
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "User", description = "the user API")
@@ -73,12 +76,14 @@ public class UserController {
     private UserService userService;
 
 
-    /**
+    */
+/**
      * Find orders by user id list.
      *
      * @param userId the user id
      * @return the list
-     */
+     *//*
+
     @Operation(summary = "Find orders by UserId", description = "Returns a order List", tags = { "orders" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
@@ -94,3 +99,4 @@ public class UserController {
 
 
 }
+*/

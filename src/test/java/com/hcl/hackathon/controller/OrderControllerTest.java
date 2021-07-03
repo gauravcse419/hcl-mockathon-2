@@ -5,6 +5,7 @@ import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.util.OrderTestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -41,7 +42,7 @@ public class OrderControllerTest {
         OrderDTO orderDTO=getOrder();
         when(orderService.createOrder(Mockito.any())).thenReturn(orderDTO);
         mvc.perform(MockMvcRequestBuilders.post("/api/order")
-                .content(asJsonString(orderDTO)).contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(OrderTestUtil.getOrderInfoDTO())).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.orderNo").exists())
          .andExpect(MockMvcResultMatchers.jsonPath("$.orderStatus").exists());
@@ -68,11 +69,11 @@ public class OrderControllerTest {
 
     @Test
     public void updateOrderStatus() throws Exception {
-        Mockito.doNothing().when(orderService).updateOrderStatus(Mockito.any(), Mockito.anyString());
+        Mockito.doNothing().when(orderService).updateOrderStatus(Mockito.anyString(),Mockito.any());
         mvc.perform(MockMvcRequestBuilders.put("/api/order/{orderNumber}", 1)
                 .content(asJsonString(getOrder())).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-		verify(orderService).updateOrderStatus(Mockito.any(), Mockito.anyString());
+		verify(orderService).updateOrderStatus(Mockito.anyString(),Mockito.any());
 
     }
 
@@ -89,11 +90,11 @@ public class OrderControllerTest {
     @Test
     public void updateOrderStatusWithInternalServer() throws Exception {
 
-        Mockito.doThrow(RuntimeException.class).when(orderService).updateOrderStatus(Mockito.any(), Mockito.anyString());
+        Mockito.doThrow(RuntimeException.class).when(orderService).updateOrderStatus(Mockito.anyString(),Mockito.any());
         mvc.perform(MockMvcRequestBuilders.put("/api/order/ORD1234555544", 1)
                 .content(asJsonString(getOrder())).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError());
-		verify(orderService).updateOrderStatus(Mockito.any(), Mockito.anyString());
+		verify(orderService).updateOrderStatus(Mockito.anyString(),Mockito.any());
 
     }
 
