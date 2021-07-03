@@ -38,14 +38,13 @@
  */
 package com.hcl.hackathon.service;
 
-import com.hcl.hackathon.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hcl.hackathon.model.OrderDetails;
 import org.springframework.stereotype.Service;
 
-@Service
-public class OrderService {
-    
-    @Autowired
-    private UserRepository contactRepository;
+import java.util.List;
 
+@Service
+public interface OrderService {
+    
+     List<OrderDetails> findOrdersByUserId(long userId) ;
 }

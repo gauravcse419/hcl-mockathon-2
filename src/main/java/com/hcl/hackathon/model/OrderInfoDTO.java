@@ -27,7 +27,7 @@ public class OrderInfoDTO implements Serializable {
 
 	@Schema(description = "order No",
 			example = "ORD123445555", required = false)
-	private Integer orderNo;
+	private String orderNo;
 
 	@Schema(description = "order status",
 			example = "completed", required = false)

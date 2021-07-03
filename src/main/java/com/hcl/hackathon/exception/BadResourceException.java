@@ -41,18 +41,31 @@ package com.hcl.hackathon.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Bad resource exception.
+ */
 public class BadResourceException extends Exception {
 
     private List<String> errorMessages = new ArrayList<>();
-            
+
+    /**
+     * Instantiates a new Bad resource exception.
+     */
     public BadResourceException() {
     }
 
+    /**
+     * Instantiates a new Bad resource exception.
+     *
+     * @param msg the msg
+     */
     public BadResourceException(String msg) {
         super(msg);
     }
-    
+
     /**
+     * Gets error messages.
+     *
      * @return the errorMessages
      */
     public List<String> getErrorMessages() {
@@ -60,12 +73,19 @@ public class BadResourceException extends Exception {
     }
 
     /**
+     * Sets error messages.
+     *
      * @param errorMessages the errorMessages to set
      */
     public void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
     }
 
+    /**
+     * Add error message.
+     *
+     * @param message the message
+     */
     public void addErrorMessage(String message) {
         this.errorMessages.add(message);
     }

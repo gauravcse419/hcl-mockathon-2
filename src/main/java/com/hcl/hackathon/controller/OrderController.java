@@ -40,8 +40,10 @@ package com.hcl.hackathon.controller;
 
 
 import com.hcl.hackathon.model.OrderDTO;
+import com.hcl.hackathon.model.OrderDetails;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -67,21 +69,8 @@ public class OrderController {
     
     private final int ROW_PER_PAGE = 5;
     
-    @Autowired
-    private OrderService contactService;
 
 
-    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "successful operation",
-                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
-        @ApiResponse(responseCode = "404", description = "order not found") })
-    @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
-            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
-            @PathVariable long contactId) {
-        return ResponseEntity.ok().build();
-    }
 
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
