@@ -17,7 +17,7 @@ import java.util.UUID;
 @Component
 public class OrderMapper {
     UUID uuid = UUID.randomUUID();
-    String uuidAsString = uuid.toString();
+
     public OrderInfo fromVoToEntity(OrderInfoDTO from) {
         OrderInfo to = new OrderInfo();
         if(from != null) {

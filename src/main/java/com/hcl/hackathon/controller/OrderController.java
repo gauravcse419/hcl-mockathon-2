@@ -66,7 +66,7 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "order", description = "The Order API")
 public class OrderController {
-
+    
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -79,10 +79,10 @@ public class OrderController {
                 content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
         @ApiResponse(responseCode = "404", description = "order not found") })
     @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
-    public List<OrderInfoDTO> findOrdersByUserId(
+    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
             @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
-            @PathVariable long userId) {
-        return orderService.findOrdersByUserId(userId);
+            @PathVariable long contactId) {
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })

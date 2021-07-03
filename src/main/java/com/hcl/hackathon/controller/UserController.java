@@ -35,13 +35,15 @@
  * You may obtain a copy of the License at
  *   https://creativecommons.org/licenses/by-sa/4.0/
  *   https://creativecommons.org/licenses/by-sa/4.0/legalcode
- *//*
-
+ */
 package com.hcl.hackathon.controller;
 
 
+
+import com.hcl.hackathon.exception.OrderManagementException;
 import com.hcl.hackathon.model.OrderDetails;
 import com.hcl.hackathon.model.OrderInfoDTO;
+
 import com.hcl.hackathon.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -53,6 +55,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,43 +63,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-*/
 /**
  * The type User controller.
- *//*
-
+ */
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "User", description = "the user API")
 public class UserController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     @Autowired
     private UserService userService;
 
 
-    */
-/**
+    /**
      * Find orders by user id list.
      *
      * @param userId the user id
      * @return the list
-     *//*
-
+     */
     @Operation(summary = "Find orders by UserId", description = "Returns a order List", tags = { "orders" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
             @ApiResponse(responseCode = "404", description = "order not found") })
-    @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
+    @GetMapping(value = "/orders/{userId}", produces = { "application/json" })
     public List<OrderDetails> findOrdersByUserId(
-            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
+            @Parameter(description="Id of the user to be obtained. Cannot be empty.", required=true)
             @PathVariable long userId) {
         logger.debug("Started UserController.findOrdersByUserId {} ",userId);
+        if(userId <= 0) {
+            throw new OrderManagementException(HttpStatus.BAD_REQUEST.value(), "Please provide valid userID");
+        }
         return userService.findOrdersByUserId(userId);
     }
 
 
 }
-*/
