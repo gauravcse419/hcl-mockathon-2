@@ -42,6 +42,6 @@ import com.hcl.hackathon.model.Contact;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ContactRepository extends PagingAndSortingRepository<Contact, Long>,
+public interface UserRepository extends PagingAndSortingRepository<Contact, Long>,
         JpaSpecificationExecutor<Contact> {
 }

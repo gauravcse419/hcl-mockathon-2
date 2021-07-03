@@ -44,7 +44,7 @@ import com.hcl.hackathon.exception.ResourceAlreadyExistsException;
 import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.Address;
 import com.hcl.hackathon.model.Contact;
-import com.hcl.hackathon.service.ContactService;
+import com.hcl.hackathon.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -69,14 +69,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "contact", description = "the Contact API")
-public class ContactController {
+public class OrderController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private final int ROW_PER_PAGE = 5;
     
     @Autowired
-    private ContactService contactService;
+    private OrderService contactService;
     
     @Operation(summary = "Find Contacts by name", description = "Name search by %name% format", tags = { "contact" })
     @ApiResponses(value = {
