@@ -57,14 +57,9 @@ public class OrderServiceImpl implements OrderService {
 
         return orderInfoDTOS;
     }
-
-    @Override
-    public List<OrderInfoDTO> findOrdersByUserId(long userId) {
-        return null;
-    }
-
+    
     @Override
     public void updateOrderStatus(String orderNo, OrderDTO orderDTO) {
-
+         // Do update operation.
     }
 }
