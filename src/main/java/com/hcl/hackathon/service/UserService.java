@@ -43,7 +43,7 @@ import com.hcl.hackathon.exception.ResourceAlreadyExistsException;
 import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.Address;
 import com.hcl.hackathon.model.Contact;
-import com.hcl.hackathon.repository.ContactRepository;
+import com.hcl.hackathon.repository.UserRepository;
 import com.hcl.hackathon.specification.ContactSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -56,10 +56,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ContactService {
+public class UserService {
     
     @Autowired
-    private ContactRepository contactRepository;
+    private UserRepository contactRepository;
     
     private boolean existsById(Long id) {
         return contactRepository.existsById(id);
