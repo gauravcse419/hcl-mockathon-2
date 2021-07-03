@@ -95,8 +95,8 @@ public class OrderController {
     
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "201", description = "Order created",
-                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+        @ApiResponse(responseCode = "200, description = "Order created",
+                content = @Content(schema = @Schema(implementation = OrderDTO.class))),
         @ApiResponse(responseCode = "400", description = "Invalid input"), 
         @ApiResponse(responseCode = "409", description = "Order already exists") })
     @PostMapping(value = "/order", consumes = { "application/json", "application/xml" })

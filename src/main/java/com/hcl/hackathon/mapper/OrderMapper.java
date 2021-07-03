@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class OrderMapper {
-
+    UUID uuid = UUID.randomUUID();
+    String uuidAsString = uuid.toString();
     public OrderInfo fromVoToEntity(OrderInfoDTO from) {
         OrderInfo to = new OrderInfo();
         if(from != null) {
+           to.setOrderNo(uuid.toString());
            to.setTotalAmount(from.getTotalAmount());
            to.setCreateTime(new Timestamp(new Date().getTime()));
            to.setOrderStatus(from.getOrderStatus());
