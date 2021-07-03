@@ -16,8 +16,7 @@ import java.util.List;
  * 
  */
 
-@Getter
-@Setter
+@Data
 public class OrderInfoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 

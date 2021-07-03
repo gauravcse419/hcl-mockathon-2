@@ -38,14 +38,14 @@
  */
 package com.hcl.hackathon.service;
 
-import com.hcl.hackathon.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.hcl.hackathon.model.OrderDTO;
+import com.hcl.hackathon.model.OrderInfoDTO;
 
-@Service
-public class OrderService {
-    
-    @Autowired
-    private UserRepository contactRepository;
+import java.util.List;
+
+
+public interface OrderService {
+
+    OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
 
 }
