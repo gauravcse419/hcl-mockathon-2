@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Repository
-public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
+public interface OrderRepository extends JpaRepository<OrderInfo, Integer> {
 
 
     List<OrderInfo> findByOrderStatus(String orderStatus);

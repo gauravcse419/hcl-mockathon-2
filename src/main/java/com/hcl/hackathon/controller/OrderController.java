@@ -44,6 +44,7 @@ import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.service.impl.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -72,6 +73,18 @@ public class OrderController {
     private OrderService orderService;
 
 
+    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "successful operation",
+                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+        @ApiResponse(responseCode = "404", description = "order not found") })
+    @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
+    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
+            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
+            @PathVariable long contactId) {
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation"
@@ -86,12 +99,12 @@ public class OrderController {
             }
         return orderService.findOrdersByOrderStatus(orderNo, orderStatus);
     }
-    
+
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(responseCode = "200, description = order created",
                 content = @Content(schema = @Schema(implementation = OrderDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid input"), 
+        @ApiResponse(responseCode = "400", description = "Invalid input"),
         @ApiResponse(responseCode = "409", description = "Order already exists") })
     @PostMapping(value = "/order", consumes = { "application/json", "application/xml" })
     public OrderDTO createOrder(
@@ -102,30 +115,30 @@ public class OrderController {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "User Id mandatory to process this Order");
         } else if (orderInfoDTO.getTotalAmount()< 0) {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "Total Amount should be greater then Zero");
-        } else if(orderInfoDTO.getOrderItems().size()> 0) {
+        } else if(orderInfoDTO.getOrderItems().size()< 0) {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "No item attach with this Order");
         } else {
             return this.orderService.createOrder(orderInfoDTO);
         }
     }
-    
+
     @Operation(summary = "Update an existing Order status", description = "", tags = { "order" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Contact not found"),
         @ApiResponse(responseCode = "405", description = "Validation exception") })
-    @PutMapping(value = "/order/{orderNo}", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<Void> updateOrderStatus(
+    @PutMapping(value = "/order/{orderNumber}", consumes = { "application/json", "application/xml" })
+    public void updateOrderStatus(
             @Parameter(description="Id of the Order status to be update. Cannot be empty.",
                     required=true)
-            @PathVariable long contactId,
+            @PathVariable String orderNumber,
             @Parameter(description="Order to update. Cannot null or empty.",
                     required=true, schema=@Schema(implementation = OrderDTO.class))
             @Valid @RequestBody OrderDTO orderDTO) {
 
-        return ResponseEntity.ok().build();
+        orderService.updateOrderStatus(orderNumber,orderDTO);
     }
-    
+
 
 }
