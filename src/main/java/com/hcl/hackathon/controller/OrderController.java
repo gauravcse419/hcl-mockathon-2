@@ -41,7 +41,6 @@ package com.hcl.hackathon.controller;
 
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
-import com.hcl.hackathon.model.OrderItemResponse;
 import com.hcl.hackathon.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
