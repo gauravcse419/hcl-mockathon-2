@@ -40,8 +40,10 @@ package com.hcl.hackathon.controller;
 
 
 
+import com.hcl.hackathon.model.OrderDetails;
 import com.hcl.hackathon.model.OrderInfoDTO;
 
+import com.hcl.hackathon.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -65,7 +67,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "User", description = "the user API")
-public class UserController {}/*{
+public class UserController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -73,12 +75,12 @@ public class UserController {}/*{
     private UserService userService;
 
 
-    *//**
+    /**
      * Find orders by user id list.
      *
      * @param userId the user id
      * @return the list
-     *//*
+     */
     @Operation(summary = "Find orders by UserId", description = "Returns a order List", tags = { "orders" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
@@ -86,11 +88,11 @@ public class UserController {}/*{
             @ApiResponse(responseCode = "404", description = "order not found") })
     @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
     public List<OrderDetails> findOrdersByUserId(
-            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
+            @Parameter(description="Id of the user to be obtained. Cannot be empty.", required=true)
             @PathVariable long userId) {
         logger.debug("Started UserController.findOrdersByUserId {} ",userId);
         return userService.findOrdersByUserId(userId);
     }
 
 
-}*/
+}
