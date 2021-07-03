@@ -41,6 +41,9 @@ package com.hcl.hackathon.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * The type Resource not found exception.
+ */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
@@ -53,23 +56,49 @@ public class ResourceNotFoundException extends RuntimeException {
     private String errorMessage;
 
 
+    /**
+     * Gets error code.
+     *
+     * @return the error code
+     */
     public int getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Sets error code.
+     *
+     * @param errorCode the error code
+     */
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
+    /**
+     * Gets error message.
+     *
+     * @return the error message
+     */
     public String getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Sets error message.
+     *
+     * @param errorMessage the error message
+     */
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
 
+    /**
+     * Instantiates a new Resource not found exception.
+     *
+     * @param errorCode    the error code
+     * @param errorMessage the error message
+     */
     public ResourceNotFoundException(int errorCode, String errorMessage) {
         super();
         this.errorCode = errorCode;

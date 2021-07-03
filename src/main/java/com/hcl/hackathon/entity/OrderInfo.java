@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * The persistent class for the order_info database table.
- * 
  */
 @Entity
 @Table(name="order_info")

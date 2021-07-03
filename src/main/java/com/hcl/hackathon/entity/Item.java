@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * The persistent class for the item database table.
- * 
  */
 @Entity
 @NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")

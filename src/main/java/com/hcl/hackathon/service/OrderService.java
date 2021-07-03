@@ -37,13 +37,20 @@
  *   https://creativecommons.org/licenses/by-sa/4.0/legalcode
  */
 package com.hcl.hackathon.service;
-
-
+import org.springframework.stereotype.Service;
+import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
+
 
 import java.util.List;
 
+
+@Service
 public interface OrderService {
+    OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
+
+
+
 
     public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus);
 }

@@ -16,21 +16,20 @@ import java.util.List;
  * 
  */
 
-@Getter
-@Setter
+@Data
 public class OrderInfoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "order Id",
 			example = "1", required = false)
-	private Long orderId;
+	private Integer orderId;
 
 	@Schema(description = "order No",
 			example = "ORD123445555", required = false)
 	private String orderNo;
 
 	@Schema(description = "order status",
-			example = "completed", required = false)
+			example = "Order", required = false)
 	private String orderStatus;
 
 	@Schema(description = "total Amount",
@@ -39,7 +38,7 @@ public class OrderInfoDTO implements Serializable {
 
 	@Schema(description = "user Id",
 			example = "user Id", required = false)
-	private Long userId;
+	private Integer userId;
 
 	@Schema(description = "order Items")
 	private List<OrderItemDTO> orderItems;

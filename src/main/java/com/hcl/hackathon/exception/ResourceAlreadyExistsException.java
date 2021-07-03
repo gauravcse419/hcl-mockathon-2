@@ -38,6 +38,9 @@
  */
 package com.hcl.hackathon.exception;
 
+/**
+ * The type Resource already exists exception.
+ */
 public class ResourceAlreadyExistsException extends RuntimeException {
 
     /**
@@ -49,23 +52,49 @@ public class ResourceAlreadyExistsException extends RuntimeException {
     private String errorMessage;
 
 
+    /**
+     * Gets error code.
+     *
+     * @return the error code
+     */
     public int getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Sets error code.
+     *
+     * @param errorCode the error code
+     */
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
+    /**
+     * Gets error message.
+     *
+     * @return the error message
+     */
     public String getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Sets error message.
+     *
+     * @param errorMessage the error message
+     */
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
 
+    /**
+     * Instantiates a new Resource already exists exception.
+     *
+     * @param errorCode    the error code
+     * @param errorMessage the error message
+     */
     public ResourceAlreadyExistsException(int errorCode, String errorMessage) {
         super();
         this.errorCode = errorCode;

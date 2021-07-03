@@ -6,8 +6,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * The type Gobal exception handler.
+ */
 @RestControllerAdvice
 public class GobalExceptionHandler {
+    /**
+     * Handle 404 error error response.
+     *
+     * @param e the e
+     * @return the error response
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -16,6 +25,12 @@ public class GobalExceptionHandler {
 
     }
 
+    /**
+     * Handle 404 error error response.
+     *
+     * @param e the e
+     * @return the error response
+     */
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -24,6 +39,11 @@ public class GobalExceptionHandler {
 
     }
 
+    /**
+     * Handle 500 error error response.
+     *
+     * @return the error response
+     */
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
