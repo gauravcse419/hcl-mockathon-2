@@ -7,7 +7,7 @@ import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.repository.OrderRepository;
 import com.hcl.hackathon.service.OrderService;
-import com.hcl.hackathon.util.OrderMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
         List<OrderInfoDTO> orderInfoDTOS = null;
         List<OrderInfo> orderInfoDetail = null;
-        OrderMapper orderMapper = new OrderMapper();
+
 
         orderInfoDetail = orderRepository.findByOrderStatus(orderStatus);
         orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);

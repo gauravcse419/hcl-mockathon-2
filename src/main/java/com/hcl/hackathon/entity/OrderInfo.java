@@ -21,7 +21,7 @@ public class OrderInfo implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="order_id")
-	private Long orderId;
+	private Integer orderId;
 
 	@Column(name="create_time")
 	private Timestamp createTime;
