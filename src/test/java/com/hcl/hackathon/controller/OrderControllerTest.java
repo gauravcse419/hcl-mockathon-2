@@ -50,12 +50,7 @@ public class OrderControllerTest {
         verify(orderService).createOrder(Mockito.any());
     }
 
-    private OrderDTO getOrder() {
-        OrderDTO orderDTO=new OrderDTO();
-        orderDTO.setOrderNo("ORD1234555544");
-        orderDTO.setOrderStatus("completed");
-        return orderDTO;
-    }
+
 
     @Test
     public void createOrderWithInternalServer() throws Exception {
@@ -76,16 +71,6 @@ public class OrderControllerTest {
 		verify(orderService).updateOrderStatus(Mockito.anyString(),Mockito.any());
 
     }
-
-   /* @Test
-    public void updateOrderStatusWithBadRequest() throws Exception {
-
-        Mockito.doNothing().when(orderService).updateOrderStatus(Mockito.any(), Mockito.anyString());
-        mvc.perform(MockMvcRequestBuilders.put("/api/order/null", 1)
-                .content(asJsonString(new OrderDTO(null, "completed"))).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
-
-    }*/
 
     @Test
     public void updateOrderStatusWithInternalServer() throws Exception {
@@ -142,6 +127,13 @@ public class OrderControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private OrderDTO getOrder() {
+        OrderDTO orderDTO=new OrderDTO();
+        orderDTO.setOrderNo("ORD1234555544");
+        orderDTO.setOrderStatus("completed");
+        return orderDTO;
     }
 
 }
