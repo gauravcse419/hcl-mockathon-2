@@ -38,10 +38,10 @@
  */
 package com.hcl.hackathon.repository;
 
-import com.hcl.hackathon.model.Contact;
+import com.hcl.hackathon.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface UserRepository extends PagingAndSortingRepository<Contact, Long>,
-        JpaSpecificationExecutor<Contact> {
+public interface UserRepository extends PagingAndSortingRepository<UserInfo, Long>,
+        JpaSpecificationExecutor<UserInfo> {
 }

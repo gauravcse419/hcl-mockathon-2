@@ -29,12 +29,17 @@ public class ItemDTO implements Serializable {
 	@Size(max = 50)
 	private String itemName;
 
-
+	@Schema(description = "Item Type",
+			example = "Veg", required = false)
+	@Size(max = 20)
 	private String itemType;
+	@Schema(description = "price",
+			example = "20.0", required = false)
+	@Size(max = 20)
+	private Double price;
 
-	private Integer price;
-
-
+	@Schema(description = "order Items",
+			example = "orderItems", required = false)
 	private List<OrderItemDTO> orderItems;
 
 
