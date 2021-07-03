@@ -33,13 +33,13 @@ public class ItemDTO implements Serializable {
 			example = "Veg", required = false)
 	@Size(max = 20)
 	private String itemType;
+
 	@Schema(description = "price",
 			example = "20.0", required = false)
 	@Size(max = 20)
 	private Double price;
 
-	@Schema(description = "order Items",
-			example = "orderItems", required = false)
+	@Schema(description = "order Items")
 	private List<OrderItemDTO> orderItems;
 
 

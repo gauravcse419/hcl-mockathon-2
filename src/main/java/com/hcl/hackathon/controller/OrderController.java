@@ -41,6 +41,7 @@ package com.hcl.hackathon.controller;
 
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
+import com.hcl.hackathon.model.OrderItemResponse;
 import com.hcl.hackathon.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -83,8 +84,8 @@ public class OrderController {
 
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
+            @ApiResponse(responseCode = "200", description = "successful operation"
+                    ),
             @ApiResponse(responseCode = "404", description = "orders not found") })
     @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
     public ResponseEntity<List<OrderInfoDTO>> findOrdersByOrderStatus(
