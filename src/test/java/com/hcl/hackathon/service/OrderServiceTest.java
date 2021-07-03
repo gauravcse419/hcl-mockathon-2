@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hcl.hackathon.util.OrderTestUtil.getOrderInfoDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,12 +37,12 @@ public class OrderServiceTest {
 	@InjectMocks
 	OrderServiceImpl orderService;
 
-	@InjectMocks
+	@Mock
 	OrderMapper orderMapper;
 
 	@Test
 	public void createOrderTest() {
-		OrderInfoDTO orderInfoDTO=OrderTestUtil.getOrderInfoDTO();
+		OrderInfoDTO orderInfoDTO= getOrderInfoDTO();
 		OrderInfo orderInfo=getOrderInfo();
 		when(orderMapper.fromVoToEntity(Mockito.any())).thenReturn(getOrderInfo());
 		when(orderRepository.save(Mockito.any())).thenReturn(getOrderInfo());
@@ -49,8 +50,41 @@ public class OrderServiceTest {
 		verify(orderRepository).save(orderInfo);
 		assertThat(orderDTO).isNotNull();
 		assertThat(orderDTO.getOrderNo()).isEqualTo("ORD12345");
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void createCustomerInternalServerTest() {
+		OrderInfoDTO orderInfoDTO= getOrderInfoDTO();
+		OrderInfo orderInfo=getOrderInfo();
+		OrderDTO orderDTO=orderService.createOrder(orderInfoDTO);
+		verify(orderRepository).save(orderInfo);
+		assertThat(orderDTO).isNull();
 
 	}
+
+	@Test
+	public void findOrdersByOrderStatusTest() {
+		OrderInfo orderInfo=getOrderInfo();
+		List<OrderInfoDTO> orderInfoDTOList = new ArrayList<>();
+		orderInfoDTOList.add(getOrderInfoDTO());
+		List<OrderInfo> orderInfoList = new ArrayList<>();
+		orderInfoList.add(getOrderInfo());
+		when(orderMapper.mapOrderInfoDetails(orderInfoList)).thenReturn(orderInfoDTOList);
+		when(orderRepository.findByOrderStatus("completed")).thenReturn(orderInfoList);
+		List<OrderInfoDTO> orderInfoDTOS=orderService.findOrdersByOrderStatus("ORD12345", "completed");
+		verify(orderRepository).findByOrderStatus("completed");
+		assertThat(orderInfoDTOS).isNotNull();
+		assertThat(orderInfoList.get(0).getOrderStatus()).isEqualTo("completed");
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void findByOrderStatusInternalServerTest() {
+		when(orderRepository.findByOrderStatusAndOrderNo("completed","ORD12345")).thenThrow(RuntimeException.class);
+		List<OrderInfoDTO> orderInfoDTOS=orderService.findOrdersByOrderStatus("ORD12345", "completed");
+		verify(orderRepository).findByOrderStatusAndOrderNo("completed","ORD12345");
+		assertThat(orderInfoDTOS).isNull();
+	}
+
 
 
 	private OrderInfo getOrderInfo() {
@@ -86,20 +120,5 @@ public class OrderServiceTest {
 		item.setItemId(1l);
 		return item;
 	}
-
-
-
-	@Test(expected = RuntimeException.class)
-	public void createCustomerInternalServerTest() {
-		OrderInfoDTO orderInfoDTO= OrderTestUtil.getOrderInfoDTO();
-		OrderInfo orderInfo=getOrderInfo();
-		when(orderRepository.save(orderInfo)).thenThrow(RuntimeException.class);
-		OrderDTO orderDTO=orderService.createOrder(orderInfoDTO);
-		verify(orderRepository).save(orderInfo);
-		assertThat(orderDTO).isNull();
-
-	}
-
-
 
 }
