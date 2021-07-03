@@ -8,11 +8,11 @@ import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.model.OrderItemDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderMapper {
@@ -25,24 +25,18 @@ public class OrderMapper {
            to.setTotalAmount(from.getTotalAmount());
            to.setCreateTime(new Timestamp(new Date().getTime()));
            to.setOrderStatus(from.getOrderStatus());
-           to.setOrderItems(fromVoToEntityOrderItem(from.getOrderItems()));
+           to.setOrderItems( from.getOrderItems().stream().map(this::modelToEntity).collect(Collectors.toList()));
         }
         return to;
 
     }
 
-    private List<OrderItem> fromVoToEntityOrderItem(List<OrderItemDTO> orderItems) {
-        List<OrderItem> orderItemList = new ArrayList<>();
-        if(!orderItems.isEmpty()) {
-            orderItems.forEach(orderItemDTO -> {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setPrice(orderItemDTO.getPrice());
-                orderItem.setQuantity(orderItemDTO.getQuantity());
-                orderItem.setItem(fromVoToEntityItem(orderItemDTO.getItem()));
-                orderItemList.add(orderItem);
-            });
-        }
-        return orderItemList;
+    private OrderItem modelToEntity(OrderItemDTO orderItemDTO) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setPrice(orderItemDTO.getPrice());
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setItem(fromVoToEntityItem(orderItemDTO.getItem()));
+        return orderItem;
     }
 
     private Item fromVoToEntityItem(ItemDTO from) {
@@ -57,9 +51,7 @@ public class OrderMapper {
     }
 
     public List<OrderInfoDTO> mapOrderInfoDetails(List<OrderInfo> orderInfoDetail) {
-        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
-        orderInfoDetail.forEach(orderInfo -> orderInfoDTOS.add(mapOrderDetailRespose(orderInfo)) );
-        return  orderInfoDTOS;
+        return orderInfoDetail.stream().map(this::mapOrderDetailRespose).collect(Collectors.toList());
     }
 
     private OrderInfoDTO mapOrderDetailRespose(OrderInfo orderInfo) {
@@ -72,9 +64,8 @@ public class OrderMapper {
     }
 
     private List<OrderItemDTO> mapOrderItem(List<OrderItem> orderItems) {
-        List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
-        orderItems.forEach(orderItem -> orderItemDTOS.add(mapOrderItemDetailRespose(orderItem)) );
-        return  orderItemDTOS;
+        return orderItems.stream().map(this::mapOrderItemDetailRespose).collect(Collectors.toList());
+
     }
 
     private OrderItemDTO mapOrderItemDetailRespose(OrderItem orderItem) {

@@ -121,44 +121,6 @@ public class OrderControllerTest {
 
     }
 
-
-    @Test
-    public void getOrdersByUserId() throws Exception {
-        List<OrderInfoDTO> orderInfoDTOS=new ArrayList<>();
-        OrderInfoDTO orderInfoDTO=new OrderInfoDTO();
-        orderInfoDTO.setOrderId(1);
-        orderInfoDTO.setOrderNo("ORD1234512");
-        orderInfoDTOS.add(orderInfoDTO);
-        when(orderService.findOrdersByUserId(Mockito.anyLong())).thenReturn(orderInfoDTOS);
-        mvc.perform(MockMvcRequestBuilders.get("/api/orders/1").accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderNo").value("ORD1234512"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1));
-        verify(orderService).findOrdersByUserId(Mockito.anyLong());
-    }
-
-    @Test
-    public void getOrdersByUserId_notFound() throws Exception {
-        when(orderService.findOrdersByUserId(Mockito.anyLong()))
-                .thenThrow(ResourceNotFoundException.class);
-
-        mvc.perform(MockMvcRequestBuilders.get("/api/orders/1"))
-                .andExpect(status().isNotFound());
-        verify(orderService).findOrdersByUserId(Mockito.anyLong());
-
-    }
-
-    @Test
-    public void getOrdersByUserId_InternalServer() throws Exception {
-        when(orderService.findOrdersByUserId(Mockito.anyLong()))
-                .thenThrow(RuntimeException.class);
-
-        mvc.perform(MockMvcRequestBuilders.get("/api/orders/1"))
-                .andExpect(status().isInternalServerError());
-        verify(orderService).findOrdersByUserId(Mockito.anyLong());
-
-    }
-
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

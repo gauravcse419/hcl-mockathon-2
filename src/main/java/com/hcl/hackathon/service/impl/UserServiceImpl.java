@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type User service.
@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<OrderDetails> findOrdersByUserId(long userId) {
 
-        List<OrderDetails> orderDetails = new ArrayList<>();
 
         logger.debug("Started UserServiceImpl {}",userId);
 
@@ -47,13 +46,15 @@ public class UserServiceImpl implements UserService {
         if (orderRes.isEmpty()){
             throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(),"No Order has been booked under this user");
         }
-        orderRes.forEach(order-> {
-            OrderDetails orderDetail = new OrderDetails();
-            orderDetail.setOrderNo(order.getOrderNo());
-            orderDetail.setOrderStatus(order.getOrderStatus());
-            orderDetail.setOrderDesc("Order has been Provisioned");
-            orderDetails.add(orderDetail);
-        });
-        return orderDetails;
+        return orderRes.stream().map(this::getOrders).collect(Collectors.toList());
+
+    }
+
+    private OrderDetails getOrders(OrderInfo orderInfo) {
+        OrderDetails orderDetail = new OrderDetails();
+        orderDetail.setOrderNo(orderInfo.getOrderNo());
+        orderDetail.setOrderStatus(orderInfo.getOrderStatus());
+        orderDetail.setOrderDesc("Order has been Provisioned");
+        return orderDetail;
     }
 }

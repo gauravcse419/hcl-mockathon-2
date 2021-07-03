@@ -44,7 +44,6 @@ import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
-import com.hcl.hackathon.service.impl.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,11 +51,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -66,24 +63,9 @@ import java.util.List;
 @RequestMapping("/api")
 @Tag(name = "order", description = "The Order API")
 public class OrderController {
-    
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private OrderService orderService;
-
-
-    @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "successful operation",
-                content = @Content(schema = @Schema(implementation = OrderInfoDTO.class))),
-        @ApiResponse(responseCode = "404", description = "order not found") })
-    @GetMapping(value = "/orders/{userId}", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<OrderInfoDTO>> findOrdersByUserId(
-            @Parameter(description="Id of the order to be obtained. Cannot be empty.", required=true)
-            @PathVariable long contactId) {
-        return ResponseEntity.ok().build();
-    }
 
     @Operation(summary = "Find order by Order status ", description = "Returns a order List", tags = { "order" })
     @ApiResponses(value = {
@@ -94,7 +76,7 @@ public class OrderController {
     public List<OrderInfoDTO> findOrdersByOrderStatus(
             @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.")
             @RequestParam(required=true) String  orderStatus , @RequestParam(required=false) String orderNo) {
-            if(orderStatus.isEmpty() || orderStatus.equals(null)){
+            if(StringUtils.isEmpty(orderStatus)){
                 throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "order status is not given");
             }
         return orderService.findOrdersByOrderStatus(orderNo, orderStatus);
@@ -111,11 +93,11 @@ public class OrderController {
             @Parameter(description="Order to add. Cannot null or empty.",
                     required=true, schema=@Schema(implementation = OrderInfoDTO.class))
             @Valid @RequestBody OrderInfoDTO orderInfoDTO) {
-        if(orderInfoDTO.getUserId().equals(null) || orderInfoDTO.getUserId().equals(' ')) {
+        if(StringUtils.isEmpty(orderInfoDTO.getUserId())) {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "User Id mandatory to process this Order");
         } else if (orderInfoDTO.getTotalAmount()< 0) {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "Total Amount should be greater then Zero");
-        } else if(orderInfoDTO.getOrderItems().size()< 0) {
+        } else if(orderInfoDTO.getOrderItems().isEmpty()) {
             throw new OrderManagementException(HttpStatus.PRECONDITION_FAILED.value(), "No item attach with this Order");
         } else {
             return this.orderService.createOrder(orderInfoDTO);
