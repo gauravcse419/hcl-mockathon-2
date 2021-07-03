@@ -36,27 +36,54 @@
  *   https://creativecommons.org/licenses/by-sa/4.0/
  *   https://creativecommons.org/licenses/by-sa/4.0/legalcode
  */
-package com.hcl.hackathon.controller;
+package com.hcl.hackathon.service.impl;
 
+import com.hcl.hackathon.entity.Item;
+import com.hcl.hackathon.entity.OrderInfo;
+import com.hcl.hackathon.entity.OrderItem;
+import com.hcl.hackathon.model.ItemDTO;
+import com.hcl.hackathon.model.OrderInfoDTO;
+import com.hcl.hackathon.model.OrderItemDTO;
+import com.hcl.hackathon.repository.OrderRepository;
 
-import com.hcl.hackathon.service.impl.OrderServiceImpl;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.util.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api")
-@Tag(name = "User", description = "the user API")
-public class UserController {
-    
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
-    private final int ROW_PER_PAGE = 5;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class OrderServiceImpl implements OrderService {
     
     @Autowired
-    private OrderServiceImpl contactService;
+    private OrderRepository orderRepository;
+
+    /**
+     * Method to get orders by order status and order no
+     *
+     * @param orderNo
+     * @param orderStatus
+     * @return list of orders
+     */
+    @Override
+    public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
+        List<OrderInfoDTO> orderInfoDTOS = null;
+        List<OrderInfo> orderInfoDetail = null;
+        OrderMapper orderMapper = new OrderMapper();
+
+            orderInfoDetail = orderRepository.findByOrderStatus(orderStatus);
+            orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+
+              if(orderNo != null){
+             orderInfoDetail = orderRepository.findByOrderStatusAndOrderNo(orderStatus, orderNo);
+            orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+        }
+
+        return  orderInfoDTOS;
+    }
+
 
 }

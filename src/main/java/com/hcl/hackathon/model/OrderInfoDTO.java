@@ -23,11 +23,11 @@ public class OrderInfoDTO implements Serializable {
 
 	@Schema(description = "order Id",
 			example = "1", required = false)
-	private Integer orderId;
+	private Long orderId;
 
 	@Schema(description = "order No",
 			example = "ORD123445555", required = false)
-	private Integer orderNo;
+	private String orderNo;
 
 	@Schema(description = "order status",
 			example = "completed", required = false)
@@ -39,7 +39,7 @@ public class OrderInfoDTO implements Serializable {
 
 	@Schema(description = "user Id",
 			example = "user Id", required = false)
-	private Integer userId;
+	private Long userId;
 
 	@Schema(description = "order Items")
 	private List<OrderItemDTO> orderItems;

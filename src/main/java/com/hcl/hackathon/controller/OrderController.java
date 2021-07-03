@@ -39,10 +39,11 @@
 package com.hcl.hackathon.controller;
 
 
+import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
-import com.hcl.hackathon.model.OrderItemResponse;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.service.impl.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +54,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +71,7 @@ public class OrderController {
     private final int ROW_PER_PAGE = 5;
     
     @Autowired
-    private OrderService contactService;
+    private OrderService orderService;
 
 
     @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
@@ -90,10 +92,13 @@ public class OrderController {
                     ),
             @ApiResponse(responseCode = "404", description = "orders not found") })
     @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<OrderInfoDTO>> findOrdersByOrderStatus(
-            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.", required=true)
-            @RequestParam String orderNo, @RequestParam String orderStatus) {
-        return ResponseEntity.ok().build();
+    public List<OrderInfoDTO> findOrdersByOrderStatus(
+            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.")
+            @RequestParam(required=true) String  orderStatus , @RequestParam(required=false) String orderNo) {
+            if(orderStatus.isEmpty() || orderStatus.equals(null)){
+                throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "order status is not given");
+            }
+        return orderService.findOrdersByOrderStatus(orderNo, orderStatus);
     }
     
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })
