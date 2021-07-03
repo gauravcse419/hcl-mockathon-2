@@ -65,10 +65,8 @@ public class OrderController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
-    private final int ROW_PER_PAGE = 5;
-    
     @Autowired
-    private OrderService contactService;
+    private OrderService orderService;
 
 
     @Operation(summary = "Find order by OrderNumber", description = "Returns a order List", tags = { "order" })
@@ -102,11 +100,12 @@ public class OrderController {
         @ApiResponse(responseCode = "400", description = "Invalid input"), 
         @ApiResponse(responseCode = "409", description = "Order already exists") })
     @PostMapping(value = "/order", consumes = { "application/json", "application/xml" })
-    public ResponseEntity<OrderDTO> createOrder(
+    public OrderDTO createOrder(
             @Parameter(description="Order to add. Cannot null or empty.",
                     required=true, schema=@Schema(implementation = OrderInfoDTO.class))
             @Valid @RequestBody OrderInfoDTO OrderInfoDTO) {
-        return ResponseEntity.ok().build();
+
+        return this.orderService.createOrder(OrderInfoDTO);
     }
     
     @Operation(summary = "Update an existing Order status", description = "", tags = { "order" })
