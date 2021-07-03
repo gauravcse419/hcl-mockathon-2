@@ -23,7 +23,7 @@ public class OrderItem implements Serializable {
 
 	private Double price;
 
-	private String quantity;
+	private int quantity;
 
 	//bi-directional many-to-one association to Item
 	@ManyToOne

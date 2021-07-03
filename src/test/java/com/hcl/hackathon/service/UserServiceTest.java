@@ -78,7 +78,7 @@ public class UserServiceTest {
 		OrderItem orderItem=new OrderItem();
 		orderItem.setItem(createItemEntity());
 		orderItem.setPrice(123.0);
-		orderItem.setQuantity("Quantity");
+		orderItem.setQuantity(2);
 		orderItem.setOrderItemd(1l);
 		orderItems.add(orderItem);
 		return orderItems;

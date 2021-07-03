@@ -23,8 +23,8 @@ public class OrderItemDTO implements Serializable {
 	private Double price;
 
 	@Schema(description = "quantity",
-			example = "quantity", required = false)
-	private String quantity;
+			example = "5", required = false)
+	private int quantity;
 
 	@Schema(description = "item")
 	private ItemDTO item;
