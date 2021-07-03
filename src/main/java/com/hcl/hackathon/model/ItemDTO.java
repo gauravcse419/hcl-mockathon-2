@@ -22,7 +22,7 @@ public class ItemDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private Integer itemId;
+	private Long itemId;
 
 	@Schema(description = "Item Name",
 			example = "Veg pizza comb1", required = false)

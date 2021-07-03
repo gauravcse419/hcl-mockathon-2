@@ -40,9 +40,11 @@ package com.hcl.hackathon.controller;
 
 
 import com.hcl.hackathon.exception.OrderManagementException;
+import com.hcl.hackathon.exception.ResourceNotFoundException;
 import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.service.OrderService;
+import com.hcl.hackathon.service.impl.OrderServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -66,7 +68,7 @@ import java.util.List;
 public class OrderController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     @Autowired
     private OrderService orderService;
 
@@ -89,10 +91,13 @@ public class OrderController {
                     ),
             @ApiResponse(responseCode = "404", description = "orders not found") })
     @GetMapping(value = "/orders", produces = { "application/json", "application/xml" })
-    public ResponseEntity<List<OrderInfoDTO>> findOrdersByOrderStatus(
-            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.", required=true)
-            @RequestParam String orderNo, @RequestParam String orderStatus) {
-        return ResponseEntity.ok().build();
+    public List<OrderInfoDTO> findOrdersByOrderStatus(
+            @Parameter(description="orderStatus of the order to be obtained. Cannot be empty.")
+            @RequestParam(required=true) String  orderStatus , @RequestParam(required=false) String orderNo) {
+            if(orderStatus.isEmpty() || orderStatus.equals(null)){
+                throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "order status is not given");
+            }
+        return orderService.findOrdersByOrderStatus(orderNo, orderStatus);
     }
     
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })

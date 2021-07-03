@@ -7,6 +7,7 @@ import com.hcl.hackathon.model.OrderDTO;
 import com.hcl.hackathon.model.OrderInfoDTO;
 import com.hcl.hackathon.repository.OrderRepository;
 import com.hcl.hackathon.service.OrderService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,29 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new OrderManagementException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error Occur while saving the order");
         }
+    }
+
+    /**
+     * Method to get orders by order status and order no
+     *
+     * @param orderNo
+     * @param orderStatus
+     * @return list of orders
+     */
+    @Override
+    public List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus) {
+        List<OrderInfoDTO> orderInfoDTOS = null;
+        List<OrderInfo> orderInfoDetail = null;
+
+
+        orderInfoDetail = orderRepository.findByOrderStatus(orderStatus);
+        orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+
+        if(orderNo != null){
+            orderInfoDetail = orderRepository.findByOrderStatusAndOrderNo(orderStatus, orderNo);
+            orderInfoDTOS = orderMapper.mapOrderInfoDetails(orderInfoDetail);
+        }
+
+        return  orderInfoDTOS;
     }
 }
