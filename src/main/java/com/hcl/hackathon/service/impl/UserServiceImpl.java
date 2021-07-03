@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
         logger.debug("Started UserServiceImpl {}",userId);
 
+
         List<OrderInfo> orderRes =  userRepository.findByUserId(userId);
         logger.debug("Response UserServiceImpl {}", orderRes);
         if (orderRes.isEmpty()){
