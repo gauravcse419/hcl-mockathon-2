@@ -24,7 +24,7 @@ public class OrderTestUtil {
         List<OrderItemDTO> orderItemDTOS=new ArrayList<>();
         OrderItemDTO orderItemDTO=new OrderItemDTO();
         orderItemDTO.setPrice(123.0);
-        orderItemDTO.setQuantity("setQuantity");
+        orderItemDTO.setQuantity(1);
         orderItemDTO.setOrderItemd(123);
         orderItemDTO.setItem(createItems());
         orderItemDTOS.add(orderItemDTO);
