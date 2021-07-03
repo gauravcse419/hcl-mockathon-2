@@ -55,7 +55,6 @@ public interface OrderService {
 
 
 
-    List<OrderInfoDTO> findOrdersByUserId(long userId);
 
     void updateOrderStatus(String orderNo, OrderDTO orderDTO);
 }
