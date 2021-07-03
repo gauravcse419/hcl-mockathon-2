@@ -96,7 +96,7 @@ public class OrderController {
     
     @Operation(summary = "Add a new Order", description = "", tags = { "order" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200, description = "Order created",
+        @ApiResponse(responseCode = "200, description = order created",
                 content = @Content(schema = @Schema(implementation = OrderDTO.class))),
         @ApiResponse(responseCode = "400", description = "Invalid input"), 
         @ApiResponse(responseCode = "409", description = "Order already exists") })
