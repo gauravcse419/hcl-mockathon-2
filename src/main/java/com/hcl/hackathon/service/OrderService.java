@@ -49,12 +49,5 @@ import java.util.List;
 public interface OrderService {
     OrderDTO createOrder(OrderInfoDTO orderInfoDTO);
     List<OrderInfoDTO> findOrdersByOrderStatus(String orderNo, String orderStatus);
-
-
-
-
-
-
-
     void updateOrderStatus(String orderNo, OrderDTO orderDTO);
 }
