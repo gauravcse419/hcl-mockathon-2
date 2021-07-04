@@ -86,7 +86,7 @@ public class OrderController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200, description = order created",
                 content = @Content(schema = @Schema(implementation = OrderDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid input"),
+        @ApiResponse(responseCode = "412", description = "Invalid input"),
         @ApiResponse(responseCode = "409", description = "Order already exists") })
     @PostMapping(value = "/order", consumes = { "application/json", "application/xml" })
     public OrderDTO createOrder(

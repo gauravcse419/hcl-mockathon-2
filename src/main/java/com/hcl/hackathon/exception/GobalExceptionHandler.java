@@ -52,4 +52,15 @@ public class GobalExceptionHandler {
                 "Unable to process the request please try after some time");
 
     }
+    /**
+     * Handle 412 error error response.
+     *
+     * @return the error response
+     */
+    @ExceptionHandler(OrderManagementException.class)
+    @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
+    @ResponseBody
+    public ErrorResponse handle412Error(OrderManagementException e) {
+        return new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
+    }
 }
