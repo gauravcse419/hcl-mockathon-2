@@ -1,11 +1,9 @@
 package com.hcl.hackathon.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
