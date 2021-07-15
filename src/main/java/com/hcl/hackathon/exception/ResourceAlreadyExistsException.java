@@ -49,26 +49,19 @@ public class ResourceAlreadyExistsException extends RuntimeException {
      */
     private static final long serialVersionUID = 1L;
 
-    private int errorCode;
-    private String errorMessage;
+    private final int errorCode;
+    private final String errorMessage;
 
 
     public int getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
-    }
+
 
     public String getErrorMessage() {
         return errorMessage;
     }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
 
     public ResourceAlreadyExistsException(int errorCode, String errorMessage) {
         super();
